@@ -45,11 +45,8 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 
-    // Налаштування для запуску в 2 потоки
     maxParallelForks = 2
     systemProperty("junit.jupiter.execution.parallel.enabled", "true")
     systemProperty("junit.jupiter.execution.parallel.mode.default", "concurrent")
-
-    // Передаємо Allure конфігурацію
     systemProperty("allure.results.directory", "build/allure-results")
 }
