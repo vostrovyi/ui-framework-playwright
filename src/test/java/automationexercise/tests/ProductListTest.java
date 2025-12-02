@@ -3,7 +3,6 @@ package automationexercise.tests;
 import automationexercise.base.BaseTest;
 import com.microsoft.playwright.APIResponse;
 import io.qameta.allure.Description;
-import io.qameta.allure.Step;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,22 +14,15 @@ import static org.hamcrest.Matchers.*;
 public class ProductListTest extends BaseTest {
 
     @Test
-    @DisplayName("API 1: GET All Products List")
+    @DisplayName("API 1: GET /productsList should return HTTP 200 and a list of products")
     @Description("GET All Products List. Check status code and response body")
     @Story("Products API")
     void getAllProductsList() {
-        APIResponse response = getAllProducts();
+        APIResponse response = productController.getAllProducts();
 
         assertThat("Response status code not 200", response.status(), equalTo(200));
         assertThat("The response does not contain any products.", response.text(), notNullValue());
-        assertThat("", response.text(), containsString("price"));
-    }
-
-    @Step("Execute GET-request /api/productsList")
-    private APIResponse getAllProducts() {
-        APIResponse apiResponse = requestContext.get("/api/productsList");
-        System.out.println("Response Body: " + apiResponse.text());
-        return apiResponse;
+        assertThat("Response must contain the essential 'price' field in product data.", response.text(), containsString("price"));
     }
 
     @Test
@@ -38,7 +30,7 @@ public class ProductListTest extends BaseTest {
     @Description("POST To All Products List. Check response code from body")
     @Story("Products API")
     void postAllProductsList() {
-        APIResponse response = postAllProducts();
+        APIResponse response = productController.postAllProducts();
 
         assertThat("HTTP status is not 200", response.status(), equalTo(200));
         assertThat("The response body is null", response.text(), notNullValue());
@@ -51,12 +43,5 @@ public class ProductListTest extends BaseTest {
         // Check message
         assertThat("The response message is incorrect",
                 json.getString("message"), equalTo("This request method is not supported."));
-    }
-
-    @Step("Execute POST-request /api/productsList")
-    private APIResponse postAllProducts() {
-        APIResponse apiResponse = requestContext.post("/api/productsList");
-        System.out.println("Response Body: " + apiResponse.text());
-        return apiResponse;
     }
 }
