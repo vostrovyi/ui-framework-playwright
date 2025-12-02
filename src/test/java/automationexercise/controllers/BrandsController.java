@@ -1,5 +1,6 @@
 package automationexercise.controllers;
 
+import automationexercise.utils.AllureLogger;
 import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.APIResponse;
 import io.qameta.allure.Step;
@@ -14,11 +15,15 @@ public class BrandsController {
 
     @Step("GET All Brands List")
     public APIResponse getAllBrands() {
-        return request.get("/api/brandsList");
+        APIResponse response = request.get("/api/brandsList");
+        AllureLogger.log("GET", "/api/brandsList", response);
+        return response;
     }
 
     @Step("PUT To All Brands List")
     public APIResponse putToBrandsList() {
-        return request.put("/api/brandsList");
+        APIResponse response = request.put("/api/brandsList");
+        AllureLogger.log("PUT", "/api/brandsList", response);
+        return response;
     }
 }

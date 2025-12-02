@@ -1,5 +1,6 @@
 package automationexercise.controllers;
 
+import automationexercise.utils.AllureLogger;
 import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.APIResponse;
 import com.microsoft.playwright.options.FormData;
@@ -25,12 +26,20 @@ public class LoginController {
             formData.set("password", password);
         }
 
-        return request.post("/api/verifyLogin",
+        APIResponse response = request.post("/api/verifyLogin",
                 RequestOptions.create().setForm(formData));
+
+        String logBody = "email=" + email + "&password=" + password;
+
+        AllureLogger.log("POST", "/api/verifyLogin", logBody, response);
+
+        return response;
     }
 
     @Step("DELETE Verify Login (Check Method Not Allowed)")
     public APIResponse deleteVerifyLogin() {
-        return request.delete("/api/verifyLogin");
+        APIResponse response = request.delete("/api/verifyLogin");
+        AllureLogger.log("DELETE", "/api/verifyLogin", response);
+        return response;
     }
 }

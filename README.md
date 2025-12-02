@@ -6,8 +6,6 @@
 * **Test Runner:** JUnit 5
 * **Assertions:** Hamcrest
 * **Reporting:** Allure Report
-* **JSON Parsing:** org.json
-* **Architecture:** Controller / Facade Pattern
 
 ## Prerequisites
 

@@ -1,5 +1,6 @@
 package automationexercise.controllers;
 
+import automationexercise.utils.AllureLogger;
 import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.APIResponse;
 import com.microsoft.playwright.options.RequestOptions;
@@ -15,25 +16,35 @@ public class ProductController {
 
     @Step("GET All Products List")
     public APIResponse getAllProducts() {
-        return request.get("/api/productsList");
+        APIResponse response = request.get("/api/productsList");
+        AllureLogger.log("GET", "/api/productsList", response);
+        return response;
     }
 
     @Step("POST To All Products List (Unsupported)")
     public APIResponse postAllProducts() {
-        return request.post("/api/productsList");
+        APIResponse response = request.post("/api/productsList");
+        AllureLogger.log("POST", "/api/productsList", response);
+        return response;
     }
 
     @Step("Search Product by keyword: {keyword}")
     public APIResponse searchProduct(String keyword) {
+        String bodyData = "search_product=" + keyword;
+
         RequestOptions options = RequestOptions.create()
                 .setHeader("Content-Type", "application/x-www-form-urlencoded")
-                .setData("search_product=" + keyword);
+                .setData(bodyData);
 
-        return request.post("/api/searchProduct", options);
+        APIResponse response = request.post("/api/searchProduct", options);
+        AllureLogger.log("POST", "/api/searchProduct", bodyData, response);
+        return response;
     }
 
     @Step("Search Product without parameters")
     public APIResponse searchProductNoParams() {
-        return request.post("/api/searchProduct");
+        APIResponse response = request.post("/api/searchProduct");
+        AllureLogger.log("POST", "/api/searchProduct", response);
+        return response;
     }
 }

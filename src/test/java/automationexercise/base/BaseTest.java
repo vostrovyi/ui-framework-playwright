@@ -6,19 +6,19 @@ import automationexercise.controllers.ProductController;
 import com.microsoft.playwright.APIRequest;
 import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.Playwright;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 public class BaseTest {
 
-    protected static Playwright playwright;
-    protected static APIRequestContext requestContext;
-    protected static ProductController productController;
-    protected static BrandsController brandsController;
-    protected static LoginController loginController;
+    protected Playwright playwright;
+    protected APIRequestContext requestContext;
+    protected ProductController productController;
+    protected BrandsController brandsController;
+    protected LoginController loginController;
 
-    @BeforeAll
-    static void setup() {
+    @BeforeEach
+    void setup() {
         playwright = Playwright.create();
         requestContext = playwright.request().newContext(new APIRequest.NewContextOptions()
                 .setBaseURL("https://automationexercise.com"));
@@ -28,8 +28,8 @@ public class BaseTest {
         loginController = new LoginController(requestContext);
     }
 
-    @AfterAll
-    static void tearDown() {
+    @AfterEach
+    void tearDown() {
         if (requestContext != null) {
             requestContext.dispose();
             requestContext = null;
